@@ -1,0 +1,9 @@
+version: '3'
+
+includes:
+  argocd: .taskfiles/argocd.yaml
+
+tasks:
+  default:
+    cmds:
+      - task -l
