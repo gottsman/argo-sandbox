@@ -10,6 +10,10 @@ tasks:
     desc: Display ArgoCD password
     cmds:
       - kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
+  deployapps:
+    desc: Deploy ArgoCD applications
+    cmds:
+      - kubectl apply -f kubes/argodeploy.yaml -n argocd
   default:
     cmds:
       - task -l

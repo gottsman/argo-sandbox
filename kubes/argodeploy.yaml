@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-sandbox
+  # Optional: labels for organization
+  labels:
+    environment: production
+spec:
+  # The ArgoCD project this app belongs to (default is "default")
+  project: default
+
+  # Source: where Kubernetes manifests live in the git repo
+  source:
+    repoURL: https://github.com/gottsman/argo-sandbox
+    targetRevision: HEAD
+    path: kubes
+
+  # Destination: where resources are deployed in the cluster
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  # Sync policy: enables automated sync and self-healing
+  syncPolicy:
+    automated:
+      prune: true            # Automatically delete resources no longer in git
+      selfHeal: true         # Auto-resync if manual changes are detected
+    syncOptions:
+      - CreateNamespace=true # Create the namespace if it does not exist
