@@ -14,6 +14,8 @@ spec:
     repoURL: https://github.com/gottsman/argo-sandbox
     targetRevision: HEAD
     path: kubes
+    directory:
+      recurse: true
 
   # Destination: where resources are deployed in the cluster
   destination:
