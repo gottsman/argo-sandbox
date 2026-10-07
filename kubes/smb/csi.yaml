@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-smb
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-csi.github.io/csi-driver-smb
+    chart: csi-smb-driver
+    targetRevision: 1.20.3
+    helm:
+      values: |
+        controller:
+          replicas: 2
+
+        storageClass:
+          create: false
+
+        externalSnapshotter:
+          enabled: true
+
+        namespace: kube-system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
