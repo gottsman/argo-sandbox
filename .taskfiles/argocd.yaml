@@ -1,9 +1,18 @@
 version: '3'
 
 tasks:
+  csidrivers:
+    internal: true
+    desc: Install CSI drivers
+    cmds:
+      - helm repo add csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+      - helm upgrade --install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system --version 1.20.3
+      - helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+      - helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version 4.13.4
   install:
     desc: Install ArgoCD
     cmds:
+      - task: csidrivers
       - kubectl create namespace argocd
       - kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
       - kubectl apply --server-side --force-conflicts -k https://github.com/argoproj/argo-cd/manifests/crds\?ref\=stable
