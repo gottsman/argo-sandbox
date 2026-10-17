@@ -27,5 +27,6 @@ spec:
     automated:
       prune: true            # Automatically delete resources no longer in git
       selfHeal: true         # Auto-resync if manual changes are detected
+      enabled: true
     syncOptions:
       - CreateNamespace=true # Create the namespace if it does not exist
